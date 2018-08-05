@@ -32,7 +32,7 @@ import requests
 #       CONSTANTS
 ################################################################################
 
-MLS_DATA_LOCAL_PATH = "/var/www/fantasymlshelper.com/public_html/data/mls/"
+MLS_DATA_LOCAL_PATH = "/var/www/fantasymlshelper.com/data/public_html/data/mls/"
 MLS_DATA_BASE_URL = "https://fgp-data-us.s3.amazonaws.com/json/mls_mls/"
 SQUAD_FILENAME = "squads.json"
 
