@@ -1,7 +1,7 @@
 ################################################################################
 #       generate_schedule
 ################################################################################
-#       Version 0.0.1
+#       Version 0.1.0
 #       Updated 2018-08-06
 ################################################################################
 #       Module takes data from MLS and creates new JSON with a simple
@@ -100,9 +100,35 @@ def generate_fantasy_schedule( ):
 def getMatchData( mls_match ):
 
     #=============================
-    # Save data to local file
+    # Create fmh match
     #=============================
+    fmh_match = {}
     
+    #=============================
+    # Extract needed data
+    #=============================
+    fmh_match['home_squad'] = {}
+    fmh_match['home_squad']['id'] = mls_match['home_squad_id']
+    fmh_match['home_squad']['name'] = mls_match['home_squad_name']
+    fmh_match['home_squad']['short_name'] = mls_match['home_squad_short_name']
+    
+    fmh_match['away_squad'] = {}
+    fmh_match['away_squad']['id'] = mls_match['away_squad_id']
+    fmh_match['away_squad']['name'] = mls_match['away_squad_name']
+    fmh_match['away_squad']['short_name'] = mls_match['away_squad_short_name']
+    
+    fmh_match['venue'] = {}
+    fmh_match['venue']['id'] = mls_match['venue_id']
+    
+    fmh_match['time'] = mls_match['date']
+    
+    fmh_match['score'] = { 'home': None, 'away': None }
+    if mls_match['status'] != "scheduled":
+        fmh_match['score']['home'] = mls_match['home_score']
+        fmh_match['score']['away'] = mls_match['away_score']
+    # End conditional
+    
+    return fmh_match
         
 # End function getMatchData()
 
