@@ -1,7 +1,7 @@
 ################################################################################
 #       generate_schedule
 ################################################################################
-#       Version 0.1.0
+#       Version 0.2.0
 #       Updated 2018-08-06
 ################################################################################
 #       Module takes data from MLS and creates new JSON with a simple
@@ -23,6 +23,7 @@ import requests
 ################################################################################
 
 # generate_fantasy_schedule( )
+# getJsonDataFromFile( filepath, <error_log> )
 # getMatchData( mls_match )
 # getRoundData( mls_round )
 # writeJsonDataToFile( data, filepath )
@@ -89,6 +90,39 @@ def generate_fantasy_schedule( ):
     writeJsonDataToFile( fmh_schedule, output_filepath )
     
 # End function generate_fantasy_schedule()
+
+
+##################################################
+#   getJsonDataFromFile( filepath, <error_log> )
+##################################################
+#   Fetch JSON data from the given file and return
+#   a JSON object with the data. If an error log
+#   filepath is provided, report any errors to
+#   that file.
+##################################################
+def getJsonDataFromFile( filepath, error_log = None ):
+
+    #=============================
+    # Fetch data from file
+    #=============================
+    try:
+        with open( filepath, 'r' ) as input_file:
+            json_data = json.loads( input_file.read() )
+            return json_data
+        # End with
+    # End try
+    
+    #=============================
+    # Return 'None' on failure
+    #=============================    
+    except Error:
+        #if (error_log != None):
+        #    with open( error_log, 'a' ) as log:
+        #        log.write( datetime.datetime.now().isoformat() + " : JSON Error on URL: " + url + '\n' )
+        return None
+    # End except
+        
+# End function getJsonDataFromFile()
 
 
 ##################################################
@@ -181,4 +215,4 @@ def writeJsonDataToFile( data, filepath ):
 ################################################################################
 #       EXECUTABLE CODE
 ################################################################################
-generate_schedule()
+generate_fantasy_schedule()
