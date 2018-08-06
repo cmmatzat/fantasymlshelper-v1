@@ -25,7 +25,8 @@ import requests
 
 # aquireNewData()
 # generateNewFolder()
-# getJsonDataFromUrl( url, filepath )
+# getJsonDataFromUrl( url )
+# writeJsonDataToFile( data, filepath )
 
 
 ################################################################################
@@ -34,7 +35,16 @@ import requests
 
 MLS_DATA_LOCAL_PATH = "/var/www/fantasymlshelper.com/data/public_html/data/mls/"
 MLS_DATA_BASE_URL = "https://fgp-data-us.s3.amazonaws.com/json/mls_mls/"
+
+STAT_EXTENSION = "stats/"
+PLAYER_EXTENSION = "players/"
+
+MATCH_FILENAME = "rounds.json"
+PLAYER_FILENAME = "players.json"
 SQUAD_FILENAME = "squads.json"
+VENUE_FILENAME = "venues.json"
+
+STAT_FILENAME = "{}.json"
 
 
 ################################################################################
@@ -67,10 +77,67 @@ def aquireNewData( ):
     # End except
     
     #=============================
-    # Get files from MLS
+    # Get squad files from MLS
     #=============================
-    print( "Downloading data..." )
-    getJsonDataFromUrl( MLS_DATA_BASE_URL + SQUAD_FILENAME, MLS_DATA_LOCAL_PATH + new_folder + SQUAD_FILENAME )
+    print( "Fetching squads..." )
+    mls_url = MLS_DATA_BASE_URL + SQUAD_FILENAME
+    local_path = MLS_DATA_LOCAL_PATH + new_folder + SQUAD_FILENAME 
+    squads = getJsonDataFromUrl( mls_url )
+    writeJsonDataToFile( squads, local_path )
+
+    #=============================
+    # Get venue files from MLS
+    #=============================
+    print( "Fetching venues..." )
+    mls_url = MLS_DATA_BASE_URL + VENUE_FILENAME
+    local_path = MLS_DATA_LOCAL_PATH + new_folder + VENUE_FILENAME 
+    venues = getJsonDataFromUrl( mls_url )
+    writeJsonDataToFile( venues, local_path )
+
+    #=============================
+    # Get match files from MLS
+    #=============================
+    print( "Fetching matches..." )
+    mls_url = MLS_DATA_BASE_URL + MATCH_FILENAME
+    local_path = MLS_DATA_LOCAL_PATH + new_folder + MATCH_FILENAME
+    rounds = getJsonDataFromUrl( mls_url )
+    writeJsonDataToFile ( rounds, local_path )
+    for rnd in rounds:
+        try:
+            for match in rnd['matches']:
+                mls_url = MLS_DATA_BASE_URL + STAT_EXTENSION + STAT_FILENAME.format( match['id'] )
+                local_path = MLS_DATA_LOCAL_PATH + new_folder + STAT_EXTENSION + STAT_FILENAME.format( match['id'] )
+                match = getJsonDataFromUrl( mls_url )
+                writeJsonDataToFile( match, local_path )
+            # End for loop
+        # End try
+
+        except KeyError:
+            print("    Bad Match")
+        # End except
+    # End for loop
+
+    #=============================
+    # Get match files from MLS
+    #=============================
+    print( "Fetching players..." )
+    mls_url = MLS_DATA_BASE_URL + PLAYER_FILENAME
+    local_path = MLS_DATA_LOCAL_PATH + new_folder + PLAYER_FILENAME
+    players = getJsonDataFromUrl( mls_url )
+    writeJsonDataToFile ( rounds, local_path )
+    for player in players:
+        try:
+            mls_url = MLS_DATA_BASE_URL + STAT_EXTENSION + PLAYER_EXTENSION + STAT_FILENAME.format( player['id'] )
+            local_path = MLS_DATA_LOCAL_PATH + new_folder + STAT_EXTENSION + PLAYER_EXTENSION + STAT_FILENAME.format( player['id'] )
+            player = getJsonDataFromUrl( mls_url )
+            writeJsonDataToFile( player, local_path )
+        # End try
+
+        except KeyError:
+            print("    Bad Player")
+        # End except
+    # End for loop
+
     print( "Data download complete." )
     
     return
@@ -90,15 +157,17 @@ def generateNewFolder( ):
     #=============================
     # Generate folder name
     #=============================
-    folder_name = datetime.datetime.now().isoformat()
+    folder_name = datetime.datetime.now().isoformat() + '/'
     
     #=============================
-    # Try to create folder
+    # Try to create folders
     #=============================
     try:
         os.makedirs( MLS_DATA_LOCAL_PATH + folder_name )
+        os.makedirs( MLS_DATA_LOCAL_PATH + folder_name + STAT_EXTENSION )
+        os.makedirs( MLS_DATA_LOCAL_PATH + folder_name + STAT_EXTENSION + PLAYER_EXTENSION )
         print( "New Folder: " + folder_name )
-        return ( folder_name + '/' )
+        return ( folder_name )
     # End try
     
     #=============================
@@ -113,12 +182,12 @@ def generateNewFolder( ):
 
 
 ##################################################
-#   getJsonDataFromUrl( url, filepath )
+#   getJsonDataFromUrl( url )
 ##################################################
-#   Fetch JSON data from the given URL and save
-#   it locally to the given filepath.
+#   Fetch JSON data from the given URL and return
+#   a JSON object with the data.
 ##################################################
-def getJsonDataFromUrl( url, filepath ):
+def getJsonDataFromUrl( url ):
 
     #=============================
     # Fetch raw data from URL
@@ -131,23 +200,35 @@ def getJsonDataFromUrl( url, filepath ):
     try:
         decoded_response = response.content.decode( 'utf-8' )
         json_data = json.loads( decoded_response )
+        return json_data
     # End try
     
     #=============================
     # Return 'None' on failure
     #=============================    
     except ValueError:
-        debugPrint( "Invalid JSON Response", "DBP_ERR_CATCH" )
+        print( "  Invalid JSON Response" )
         return None
     # End except
+        
+# End function getJsonDataFromUrl()
+
+
+##################################################
+#   writeJsonDataToFile( data, filepath )
+##################################################
+#   Write the given JSON data to file.
+##################################################
+def writeJsonDataToFile( data, filepath ):
 
     #=============================
     # Save data to local file
     #=============================
     with open( filepath, 'w' ) as output_file:
-        json.dump( json_data, output_file )
+        json.dump( data, output_file )
+    # End with
         
-# End function getJsonDataFromUrl()
+# End function writeJsonDataToFile()
 
 
 ################################################################################
