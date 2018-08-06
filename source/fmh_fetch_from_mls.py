@@ -1,8 +1,8 @@
 ################################################################################
 #       fetch_mls_data
 ################################################################################
-#       Version 0.0.1
-#       Updated 2018-07-25
+#       Version 0.1.1
+#       Updated 2018-08-05
 ################################################################################
 #       Module provides functionality to copy all relevant json data from
 #       MLS needed for fantasy analysis. This is the raw data directly from
@@ -45,6 +45,9 @@ SQUAD_FILENAME = "squads.json"
 VENUE_FILENAME = "venues.json"
 
 STAT_FILENAME = "{}.json"
+
+LATEST_DATA = "latest_data.txt"
+ERROR_LOG = "_error_log.txt"
 
 
 ################################################################################
@@ -139,6 +142,10 @@ def aquireNewData( ):
     # End for loop
 
     print( "Data download complete." )
+
+    #=============================
+    # Log the new latest folder
+    #=============================
     
     return
 # End function aquireNewData()
@@ -174,6 +181,8 @@ def generateNewFolder( ):
     # Pass along exceptions
     #=============================
     except OSError:
+        with open( MLS_DATA_LOCAL_PATH + ERROR_LOG, 'a' ) as error_log:
+            error_log.write( datetime.datetime.now().isoformat() + " : Directory Creation OS Error with name: " + folder_name )
         pass
     # End except
     
@@ -207,7 +216,8 @@ def getJsonDataFromUrl( url ):
     # Return 'None' on failure
     #=============================    
     except ValueError:
-        print( "  Invalid JSON Response" )
+        with open( MLS_DATA_LOCAL_PATH + ERROR_LOG, 'a' ) as error_log:
+            error_log.write( datetime.datetime.now().isoformat() + " : JSON Error on URL: " + url )
         return None
     # End except
         
