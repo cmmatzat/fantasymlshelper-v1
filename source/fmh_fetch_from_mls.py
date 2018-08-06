@@ -69,6 +69,8 @@ def aquireNewData( ):
     #=============================
     try:
         new_folder = generateNewFolder()
+        with open( MLS_DATA_LOCAL_PATH + LATEST_DATA, 'a' ) as folder_indicator:
+            folder_indicator.write( new_folder )
     # End try
     
     #=============================
