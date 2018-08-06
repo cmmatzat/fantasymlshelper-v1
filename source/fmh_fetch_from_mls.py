@@ -71,6 +71,7 @@ def aquireNewData( ):
         new_folder = generateNewFolder()
         with open( MLS_DATA_LOCAL_PATH + LATEST_DATA, 'a' ) as folder_indicator:
             folder_indicator.write( new_folder )
+        error_log_path = MLS_DATA_LOCAL_PATH + new_folder + ERROR_LOG
     # End try
     
     #=============================
@@ -87,7 +88,7 @@ def aquireNewData( ):
     print( "Fetching squads..." )
     mls_url = MLS_DATA_BASE_URL + SQUAD_FILENAME
     local_path = MLS_DATA_LOCAL_PATH + new_folder + SQUAD_FILENAME 
-    squads = getJsonDataFromUrl( mls_url )
+    squads = getJsonDataFromUrl( mls_url, error_log_path )
     writeJsonDataToFile( squads, local_path )
 
     #=============================
@@ -96,7 +97,7 @@ def aquireNewData( ):
     print( "Fetching venues..." )
     mls_url = MLS_DATA_BASE_URL + VENUE_FILENAME
     local_path = MLS_DATA_LOCAL_PATH + new_folder + VENUE_FILENAME 
-    venues = getJsonDataFromUrl( mls_url )
+    venues = getJsonDataFromUrl( mls_url, error_log_path )
     writeJsonDataToFile( venues, local_path )
 
     #=============================
@@ -105,20 +106,21 @@ def aquireNewData( ):
     print( "Fetching matches..." )
     mls_url = MLS_DATA_BASE_URL + MATCH_FILENAME
     local_path = MLS_DATA_LOCAL_PATH + new_folder + MATCH_FILENAME
-    rounds = getJsonDataFromUrl( mls_url )
+    rounds = getJsonDataFromUrl( mls_url, error_log_path )
     writeJsonDataToFile ( rounds, local_path )
     for rnd in rounds:
         try:
             for match in rnd['matches']:
                 mls_url = MLS_DATA_BASE_URL + STAT_EXTENSION + STAT_FILENAME.format( match['id'] )
                 local_path = MLS_DATA_LOCAL_PATH + new_folder + STAT_EXTENSION + STAT_FILENAME.format( match['id'] )
-                match = getJsonDataFromUrl( mls_url )
+                match = getJsonDataFromUrl( mls_url, error_log_path )
                 writeJsonDataToFile( match, local_path )
             # End for loop
         # End try
 
         except KeyError:
-            print("    Bad Match")
+            with open( error_log, 'a' ) as log:
+                log.write( datetime.datetime.now().isoformat() + " : Key Error on Match: " + match['id'] + '\n' )
         # End except
     # End for loop
 
@@ -139,7 +141,8 @@ def aquireNewData( ):
         # End try
 
         except KeyError:
-            print("    Bad Player")
+            with open( error_log, 'a' ) as log:
+                log.write( datetime.datetime.now().isoformat() + " : Key Error on Player: " + player['id'] + '\n' )
         # End except
     # End for loop
 
@@ -184,7 +187,7 @@ def generateNewFolder( ):
     #=============================
     except OSError:
         with open( MLS_DATA_LOCAL_PATH + ERROR_LOG, 'a' ) as error_log:
-            error_log.write( datetime.datetime.now().isoformat() + " : Directory Creation OS Error with name: " + folder_name )
+            error_log.write( datetime.datetime.now().isoformat() + " : Directory Creation OS Error with name: " + folder_name + '\n' )
         pass
     # End except
     
@@ -193,12 +196,14 @@ def generateNewFolder( ):
 
 
 ##################################################
-#   getJsonDataFromUrl( url )
+#   getJsonDataFromUrl( url, <error_log> )
 ##################################################
 #   Fetch JSON data from the given URL and return
-#   a JSON object with the data.
+#   a JSON object with the data. If an error log
+#   filepath is provided, report any errors to
+#   that file.
 ##################################################
-def getJsonDataFromUrl( url ):
+def getJsonDataFromUrl( url, error_log = None ):
 
     #=============================
     # Fetch raw data from URL
@@ -218,8 +223,9 @@ def getJsonDataFromUrl( url ):
     # Return 'None' on failure
     #=============================    
     except ValueError:
-        with open( MLS_DATA_LOCAL_PATH + ERROR_LOG, 'a' ) as error_log:
-            error_log.write( datetime.datetime.now().isoformat() + " : JSON Error on URL: " + url )
+        if (error_log != None):
+            with open( error_log, 'a' ) as log:
+                log.write( datetime.datetime.now().isoformat() + " : JSON Error on URL: " + url + '\n' )
         return None
     # End except
         
