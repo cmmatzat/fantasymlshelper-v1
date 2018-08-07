@@ -3,8 +3,13 @@
   <head>
     <title>FMH - Schedule</title>
     <link rel="stylesheet" type="text/css" href="style/schedule.css"/> 
+    <link rel="stylesheet" type="text/css" href="style/nav.css"/>
   </head>
   <body>
+    <nav>
+      <div><a href="index.php">HOME</a></div>
+      <div><a href="schedule.php">SCHEDULE</a></div>
+    </nav>
     <div class="schedule-container">
     <?php
       $url='https://data.fantasymlshelper.com/data/schedule/schedule.json';
