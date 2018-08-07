@@ -28,11 +28,19 @@
         return $data;
       }
       
+      function get_time($time)
+      {
+        $date_obj = DateTime::createFromFormat("YY-MM-DD HH:II:SS tzcorrection?", $time);
+        $game_time = $date_obj->format("HH:II");
+        return $game_time;
+      }
+      
       foreach ($schedule as $round) : ?>
       <div class="round">
         <div class="round-header">ROUND <?php echo $round['round']; ?></div>
       <?php foreach ($round['matches'] as $match) : ?>
         <div class="match">
+          <div class="match-time"><?php echo $match['time']; ?></div>
           <div class="match-img-box">
             <img src="https://d1j2t3dnax9fm.cloudfront.net/media/mls_mls/squads/logos/<?php echo $match['home_squad']['id'] ?>.png" alt="<?php echo $match['home_squad']['short_name'] ?>">
             <div class="match-text">v</div>
