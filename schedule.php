@@ -22,13 +22,16 @@
         curl_close($ch);
         return $data;
       }
-    ?>
-
-    <?php foreach ($schedule as $round) : ?>
+      
+      foreach ($schedule as $round) : ?>
       <div class="round">
-        <div class="round-header">ROUND <?php echo $round['round']; ?> </div>
+        <div class="round-header">ROUND <?php echo $round['round']; ?></div>
       <?php foreach ($round['matches'] as $match) : ?>
-        <div class="match"><?php echo $match['home_squad']['short_name'] ?><br>v<br><?php echo $match['away_squad']['short_name'] ?></div>
+        <div class="match">
+          <div class="match-text">
+            <?php echo $match['home_squad']['short_name'] ?><br>v<br><?php echo $match['away_squad']['short_name'] ?>
+          </div>
+        </div>
       <?php endforeach; ?>
       </div>
     <?php endforeach; ?>
