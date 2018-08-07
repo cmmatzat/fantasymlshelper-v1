@@ -33,8 +33,10 @@
         <div class="round-header">ROUND <?php echo $round['round']; ?></div>
       <?php foreach ($round['matches'] as $match) : ?>
         <div class="match">
-          <div class="match-text">
-            <?php echo $match['home_squad']['short_name'] ?><br>v<br><?php echo $match['away_squad']['short_name'] ?>
+          <div class="match-img-box">
+            <img src="https://d1j2t3dnax9fm.cloudfront.net/media/mls_mls/squads/logos/<?php echo $match['home_squad']['id'] ?>.png" alt="<?php echo $match['home_squad']['short_name'] ?>">
+            <div class="match-text">v</div>
+            <img src="https://d1j2t3dnax9fm.cloudfront.net/media/mls_mls/squads/logos/<?php echo $match['away_squad']['id'] ?>.png" alt="<?php echo $match['away_squad']['short_name'] ?>">
           </div>
         </div>
       <?php endforeach; ?>
