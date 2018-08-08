@@ -1,0 +1,9 @@
+
+# DO NOT REMOVE THIS LINE AND THE LINES BELOW IPALLOWID:yTePuHeDuV
+allow from 31.220.48.55
+# DO NOT REMOVE THIS LINE AND THE LINES ABOVE yTePuHeDuV:IPALLOWID
+
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L] 
