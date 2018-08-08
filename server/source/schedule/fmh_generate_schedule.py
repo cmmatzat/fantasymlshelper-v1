@@ -16,6 +16,7 @@ import datetime
 import json
 import os
 import requests
+from dateutil import parser
 
 
 ################################################################################
@@ -154,7 +155,12 @@ def getMatchData( mls_match ):
     fmh_match['venue'] = {}
     fmh_match['venue']['id'] = mls_match['venue_id']
     
-    fmh_match['time'] = mls_match['date']
+    fmh_match['time'] = {}
+    fmh_match['time']['timestamp'] = mls_match['date']
+    date = parser.parse( mls_match['date'] )
+    fmh_match['time']['day_of_week'] = date.strftime( '%A' )
+    fmh_match['time']['date'] = date.strftime( '%a, %b %-d' )
+    fmh_match['time']['time'] = date.strftime( '%-I:%M EST' )
     
     fmh_match['score'] = { 'home': None, 'away': None }
     if mls_match['status'] != "scheduled":
