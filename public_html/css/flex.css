@@ -1,0 +1,37 @@
+.flex-row {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-row-left {
+    display: flex;
+    justify-content: left;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex-col-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+}
+
+.flex-grow {
+    flex: 1 0 auto;
+}
+
+.flex-shrink {
+    flex: 0 1 auto;
+}
+
+.flex-strict {
+    flex: 0 0 auto;
+}
+
+.flex-all {
+    flex: 1 1 auto;
+}
