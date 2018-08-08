@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>FMH - Schedule</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style/schedule.css"/> 
-    <link rel="stylesheet" type="text/css" href="style/nav.css"/>
-  </head>
-  <body>
-    <nav>
-      <div><a href="index.php">HOME</a></div>
-      <div><a href="schedule.php">SCHEDULE</a></div>
-    </nav>
+<?php
+  // Load config file
+  require_once($_SERVER["DOCUMENT_ROOT"] . "/resources/config.php");
+  
+  // Load header template
+  require_once(TEMPLATES_PATH . "/header.php");
+?>
+    <div id="page-content">
+    
+    </div>
     <div class="schedule-container">
     <?php
       $url='https://data.fantasymlshelper.com/data/schedule/schedule.json';
@@ -55,5 +52,6 @@
       </div>
     <?php endforeach; ?>
     </div>
-  </body>
-</html>
+<?php
+  require_once(TEMPLATES_PATH . "/footer.php");
+?>
