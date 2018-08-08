@@ -25,10 +25,10 @@
       
       // Create a section of the page for each round
       foreach ($schedule as $round) : ?>
-      <div class="section flex-col-top flex-grow">
+      <!--<div class="section flex-col-top flex-grow">-->
       
         <?php // The first row of the section is a header bar with the round number ?>
-        <div class="sch-round-header flex-grow">ROUND <?php echo $round['round']; ?></div>
+        <!--<div class="sch-round-header flex-grow">ROUND <?php echo $round['round']; ?></div>-->
         
         <?php // The second row is a container for matches ?>
         <div class="section flex-grow flex-row">
@@ -36,7 +36,7 @@
         <?php 
           // Each match itself is a flexbox with a header and body
           foreach ($round['matches'] as $match) : ?>
-          <div class="sch-match flex-col-top-nowrap flex-strict shadow">
+          <!--<div class="sch-match flex-col-top-nowrap flex-strict shadow">-->
           
             <?php // Match header sits on top with the date ?>
             <div class="sch-match-header flex-strict <?php echo $match['time']['day_of_week'] ?>"><?php echo $match['time']['date']; ?></div>
@@ -52,13 +52,13 @@
                 <img class="flex-strict" src="https://d1j2t3dnax9fm.cloudfront.net/media/mls_mls/squads/logos/<?php echo $match['away_squad']['id'] ?>.png" alt="<?php echo $match['away_squad']['short_name'] ?>">
               </div>
             </div>
-          </div>
+          <!--</div>-->
           <?php endforeach; ?>
-        </div>
+        <!--</div>-->
 
         <?php // The third row is a container for DGW/BYE teams ?>
               
-      </div>
+      <!--</div>-->
     <?php endforeach; ?>
     </div>
 <?php

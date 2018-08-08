@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/header.css"/> 
     <link rel="stylesheet" type="text/css" href="css/flex.css"/>
+    <link rel="stylesheet" type="text/css" href="css/master.css"/>
+    <link rel="stylesheet" type="text/css" href="css/schedule.css"/>
   </head>
 
   <body>

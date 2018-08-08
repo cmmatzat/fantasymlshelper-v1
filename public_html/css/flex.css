@@ -1,23 +1,71 @@
 .flex-row {
     display: flex;
+    flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.flex-row-space {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .flex-row-left {
     display: flex;
+    flex-direction: row;
     justify-content: left;
+    flex-wrap: wrap;
 }
 
 .flex-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .flex-col-top {
     display: flex;
     flex-direction: column;
     justify-content: top;
+    flex-wrap: wrap;
+}
+
+.flex-row-nowrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.flex-row-space-nowrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: nowrap;
+}
+
+.flex-row-left-nowrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: nowrap;
+}
+
+.flex-col-nowrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+
+.flex-col-top-nowrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    flex-wrap: nowrap;
 }
 
 .flex-grow {
@@ -35,3 +83,4 @@
 .flex-all {
     flex: 1 1 auto;
 }
+
