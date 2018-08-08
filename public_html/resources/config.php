@@ -17,6 +17,6 @@
   
   
   // Constants for heavily-used paths
-  defined("LIBRARY_PATH") or define("LIBRARY_PATH", realpath(dirname(__DIR__) . '/library'));
-  defined("TEMPLATES_PATH") or define("TEMPLATES_PATH", realpath(dirname(__DIR__) . '/templates'));
+  defined('CSS_PATH') or define('CSS_PATH', $_SERVER["DOCUMENT_ROOT"] . '/css');
+  defined('TEMPLATES_PATH') or define('TEMPLATES_PATH', $_SERVER["DOCUMENT_ROOT"] . '/resources/templates');
 ?>

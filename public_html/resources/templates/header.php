@@ -11,8 +11,8 @@
   <body>
     <nav class="flex-col-top">
       <div id="site-nav" class="flex-row flex-strict">
-        <div class="flex-shrink flex-col"><a href="index.php">HOME</a></div>
-        <div><a class="flex-strict" href="schedule.php">SCHEDULE</a></div>
+        <div class="flex-shrink flex-col"><a class="flex-strict" href="index.php">HOME</a></div>
+        <div class="flex-shrink flex-col"><a class="flex-strict" href="schedule.php">SCHEDULE</a></div>
       </div>
       <div id="page_nav">
       </div>
